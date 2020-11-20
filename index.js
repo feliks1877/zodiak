@@ -80,7 +80,7 @@ async function start(){
             useUnifiedTopology: true,
             useFindAndModify: false
         })
-        app.listen(3000, () => {
+        app.listen(PORT, () => {
             console.log('Server is running on port',PORT)
         })
     }catch (e){
