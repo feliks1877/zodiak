@@ -1,0 +1,75 @@
+<div class="row">
+    <div class="auth s12">
+        <ul class="tabs">
+            <li class="tab col s6"><a href="#log">Войти</a></li>
+            <li class="tab col s6"><a class="active" href="#reg">Регистрация</a></li>
+
+        </ul>
+    </div>
+    <div id="log" class="col s12">
+        <h4>Войти</h4>
+        {{#if loginError}}
+            <p class="alert">{{loginError}}</p>
+        {{/if}}
+        <form action="/auth/login" method="post">
+            <div class="input-field">
+                <input id="email" type="email" class="validate" name="email" required minlength="3">
+                <label for="email">Email</label>
+                <span class="helper-text" data-error="Введите Email"
+                      data-success="right">Введите тект</span>
+            </div>
+            <div class="input-field">
+                <input id="password" type="password" class="validate" name="password" required>
+                <label for="password">Password</label>
+                <span class="helper-text" data-error="Введите пароль"
+                      data-success="right">Введите пароль</span>
+            </div>
+            <input type="hidden" name="_csrf" value="{{csrf}}">
+            <p><a href="/auth/reset">Восстановить пароль</a></p>
+            <button class="btn waves-effect waves-light" type="submit" name="action">Войти
+                <i class="material-icons right"></i>
+            </button>
+        </form>
+    </div>
+    <div id="reg" class="col s12">
+        <h4>Регитрация</h4>
+        {{#if registerError}}
+            <p class="alert">{{registerError}}</p>
+        {{/if}}
+        <form action="/auth/register" method="post" novalidate>
+            <div class="input-field">
+                <input id="name" type="text" class="validate" name="name" required>
+                <label for="name">Login</label>
+                <span class="helper-text" data-error="Введите Email"
+                      data-success="right">Введите Login</span>
+            </div>
+            <div class="input-field">
+                <input id="remail" type="email" class="validate" name="email" required minlength="3">
+                <label for="remail">Email</label>
+                <span class="helper-text" data-error="Введите Email"
+                      data-success="right">Введите email</span>
+            </div>
+
+            <div class="input-field">
+                <input id="rpassword" type="password" class="validate" name="password" required>
+                <label for="rpassword">Password</label>
+                <span class="helper-text" data-error="Введите пароль"
+                      data-success="right">Введите пароль</span>
+            </div>
+            <div class="input-field">
+                <input id="confirm" type="password" class="validate" name="confirm" required>
+                <label for="confirm">Повторить пароль</label>
+                <span class="helper-text" data-error="Введите пароль"
+                      data-success="right">Введите пароль</span>
+            </div>
+            <input type="hidden" name="_csrf" value="{{csrf}}">
+
+            <button class="btn waves-effect waves-light" type="submit" name="action">Регистрация
+                <i class="material-icons right"></i>
+            </button>
+        </form>
+
+
+    </div>
+
+</div>

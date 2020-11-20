@@ -1,0 +1,25 @@
+<h1>ADD</h1>
+{{#if error}}
+<p class="alert">{{error}}</p>
+{{/if}}
+<form action="/add" method="post" novalidate>
+    <div class="input-field">
+        <input id="title" type="text" class="validate" name="title" value="{{data.title}}" required minlength="3">
+        <label for="title">Название текста</label>
+        <span class="helper-text" data-error="Введите текст" data-success="right">Введите тект</span>
+    </div>
+    <div class="input-field">
+        <input id="price" type="text" class="validate" name="price" required value="{{data.price}}"  minlength="3">
+        <label for="price">Название курса</label>
+        <span class="helper-text" data-error="Введите цену" data-success="right">Введите цену</span>
+    </div>
+    <div class="input-field">
+        <input id="img" type="text" class="validate" name="img" value="{{data.img}}"  required minlength="3">
+        <label for="img">URL Image</label>
+        <span class="helper-text" data-error="Загрузите изображение" data-success="GOOD">Загрузите изображение</span>
+    </div>
+    <input type="hidden" name="_csrf" value="{{csrf}}">
+    <button class="btn waves-effect waves-light" type="submit" name="action">Отправить
+        <i class="material-icons right"></i>
+    </button>
+</form>

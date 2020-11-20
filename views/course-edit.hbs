@@ -1,0 +1,30 @@
+<h3>Редактировать</h3><br><h5>{{course.title}}</h5>
+    <form action="/courses/edit" method="post">
+        <div class="input-field">
+            <input id="title" type="text" class="validate" name="title" value="{{course.title}}">
+            <label for="title">Название текста</label>
+            <span class="helper-text" data-error="Введите текст" data-success="right">Введите тект</span>
+        </div>
+        <div class="input-field">
+            <input id="price" type="text" class="validate" name="price" value="{{course.price}}">
+            <label for="price">Название курса</label>
+            <span class="helper-text" data-error="Введите цену" data-success="right">Введите цену</span>
+        </div>
+        <div class="input-field">
+            <input id="img" type="text" class="validate" name="img" value="{{course.img}}">
+            <label for="img">URL Image</label>
+            <span class="helper-text" data-error="Загрузите изображение" data-success="GOOD">Загрузите изображение</span>
+        </div>
+        <input type="hidden" name="_csrf" value="{{csrf}}">
+        <input type="hidden" name="id" value="{{course.id}}">
+        <button class="btn waves-effect waves-light" type="submit" name="action">Редактировать
+            <i class="material-icons right"></i>
+        </button>
+    </form>
+
+<form action="/courses/remove" method="post" class="course-form">
+    <input type="hidden" name="_csrf" value="{{csrf}}">
+    <input type="hidden" name="id" value="{{course.id}}">
+    <button class="btn red">Удалить курс</button>
+</form>
+<strong>Cours</strong>
