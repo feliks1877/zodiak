@@ -9,6 +9,7 @@ const exphbs = require('express-handlebars')
 const session = require('express-session')
 const MongoStore = require('connect-mongodb-session')(session)
 const Handlebars = require('handlebars')
+const AWS = require('aws-sdk')
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
 const homeRoutes = require('./routes/home')
 const cardRoutes = require('./routes/card')
@@ -22,6 +23,10 @@ const userMiddleware = require('./middleware/user')
 const errorHandler = require('./middleware/error')
 const fileMiddleware = require('./middleware/file')
 const keys = require('./keys')
+
+aws_access_key_id = keys.AWS_ACCESS_KEY_ID
+aws_secret_access_key = keys.AWS_SECRET_ACCESS_KEY
+S3_BUCKET = keys.S3_BUCKET
 
 const app = express()
 
