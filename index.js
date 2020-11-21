@@ -3,7 +3,8 @@ const path = require('path')
 const csrf = require('csurf')
 const flash = require('connect-flash')
 const mongoose = require('mongoose')
-const helmet = require('helmet')
+const aws = require('aws-sdk')
+// const helmet = require('helmet')
 const compression = require('compression')
 const exphbs = require('express-handlebars')
 const session = require('express-session')
@@ -24,6 +25,10 @@ const fileMiddleware = require('./middleware/file')
 const keys = require('./keys')
 
 const app = express()
+
+const S3_BUCKET_NAME = process.env.S3_BUCKET_NAME;
+aws.config.region = 'us-east-2';
+
 
 const hbs = exphbs.create({
     handlebars: allowInsecurePrototypeAccess(Handlebars),
@@ -55,7 +60,7 @@ app.use(fileMiddleware.single('avatar'))
 app.use(csrf())
 
 app.use(flash())
-app.use(helmet())
+// app.use(helmet())
 app.use(compression())
 app.use(varMiddleware)
 app.use(userMiddleware)
@@ -69,6 +74,37 @@ app.use('/auth',authRoutes)
 app.use('/profile', profileRoutes)
 
 app.use(errorHandler)
+
+
+
+app.get('/sign-s3', (req, res) => {
+    const s3 = new aws.S3();
+    const fileName = req.query['file-name'];
+    const fileType = req.query['file-type'];
+    const s3Params = {
+        Bucket: S3_BUCKET_NAME,
+        Key: fileName,
+        Expires: 60,
+        ContentType: fileType,
+        ACL: 'public-read'
+    };
+
+    s3.getSignedUrl('putObject', s3Params, (err, data) => {
+        if(err){
+            console.log(err);
+            return res.end();
+        }
+        const returnData = {
+            signedRequest: data,
+            url: `https://${S3_BUCKET_NAME}.s3.amazonaws.com/${fileName}`
+        };
+        res.write(JSON.stringify(returnData));
+        res.end();
+    });
+});
+
+
+
 
 const PORT = process.env.PORT || 3000
 

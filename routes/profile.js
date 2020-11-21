@@ -1,6 +1,7 @@
 const {Router} = require('express')
 const auth = require('../middleware/auth')
 const User = require('../models/user')
+const aws = require('aws-sdk')
 const router = Router()
 
 router.get('/', auth, async (req, res) => {
@@ -23,5 +24,6 @@ router.post('/', auth, async (req, res) => {
        res.redirect('/profile')
 
 })
+
 
 module.exports = router
