@@ -3,7 +3,6 @@ const path = require('path')
 const csrf = require('csurf')
 const flash = require('connect-flash')
 const mongoose = require('mongoose')
-const aws = require('aws-sdk')
 // const helmet = require('helmet')
 const compression = require('compression')
 const exphbs = require('express-handlebars')
@@ -18,6 +17,7 @@ const addRoutes = require('./routes/add')
 const coursesRoutes = require('./routes/courses')
 const authRoutes = require('./routes/auth')
 const profileRoutes = require('./routes/profile')
+const signRoutes = require('./routes/sign-s3')
 const varMiddleware = require('./middleware/variables')
 const userMiddleware = require('./middleware/user')
 const errorHandler = require('./middleware/error')
@@ -25,10 +25,6 @@ const fileMiddleware = require('./middleware/file')
 const keys = require('./keys')
 
 const app = express()
-
-const S3_BUCKET_NAME = process.env.S3_BUCKET_NAME;
-aws.config.region = 'us-east-2';
-
 
 const hbs = exphbs.create({
     handlebars: allowInsecurePrototypeAccess(Handlebars),
@@ -72,38 +68,8 @@ app.use('/card',cardRoutes)
 app.use('/orders',ordersRoutes)
 app.use('/auth',authRoutes)
 app.use('/profile', profileRoutes)
-
+app.use('/sign', signRoutes)
 app.use(errorHandler)
-
-
-
-app.get('/sign-s3', (req, res) => {
-    const s3 = new aws.S3();
-    const fileName = req.query['file-name'];
-    const fileType = req.query['file-type'];
-    const s3Params = {
-        Bucket: S3_BUCKET_NAME,
-        Key: fileName,
-        Expires: 60,
-        ContentType: fileType,
-        ACL: 'public-read'
-    };
-
-    s3.getSignedUrl('putObject', s3Params, (err, data) => {
-        if(err){
-            console.log(err);
-            return res.end();
-        }
-        const returnData = {
-            signedRequest: data,
-            url: `https://${S3_BUCKET_NAME}.s3.amazonaws.com/${fileName}`
-        };
-        res.write(JSON.stringify(returnData));
-        res.end();
-    });
-});
-
-
 
 
 const PORT = process.env.PORT || 3000

@@ -50,11 +50,17 @@
     })();
     function getSignedRequest(file){
         const xhr = new XMLHttpRequest();
-        xhr.open('GET', `/sign-s3?file-name=${file.name}&file-type=${file.type}`);
+        console.log('FILE',file,'NAME',file.name,'TYPE',file.type)
+        const url = `/sign?file-name=${file.name}&file-type=${file.type}`;
+        console.log(url)
+        xhr.open('GET', url, true);
+        console.log(xhr)
         xhr.onreadystatechange = () => {
             if(xhr.readyState === 4){
                 if(xhr.status === 200){
+
                     const response = JSON.parse(xhr.responseText);
+                    console.log(response)
                     uploadFile(file, response.signedRequest, response.url);
                 }
                 else{
