@@ -1,4 +1,3 @@
-
 const {Router} = require('express')
 const fs = require('fs');
 const auth = require('../middleware/auth')
@@ -40,11 +39,12 @@ router.post('/', auth, async (req, res) => {
         console.log('DATA', data, 'TYPE', req.file)
         const params = {
             Bucket: keys.S3_BUCKET,
-            Key: req.file.originalname,
+            Key: req.file.filename,
             Body: data,
             ContentType: req.file.mimetype,
             ACL: 'public-read'
         };
+        console.log(params)
         s3.putObject(params, function (err, data) {
             if (err) {
                 console.log(err)
@@ -56,8 +56,6 @@ router.post('/', auth, async (req, res) => {
 
     Object.assign(user, toChange)
     await user.save()
-
-
     res.redirect('/profile')
 })
 

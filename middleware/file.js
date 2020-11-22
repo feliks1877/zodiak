@@ -5,10 +5,10 @@ const storage = multer.diskStorage({
         cb(null, 'images')
     },
     filename(req, file, cb){
-        cb(null, file.originalname)
+        cb(null, uuid())
     }
 })
-
+console.log(storage)
 const allowedTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/webp']
 
 const fileFilter = (req, file, cb) => {
