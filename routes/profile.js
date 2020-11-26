@@ -47,7 +47,7 @@ router.post('/', auth, async (req, res) => {
         console.log(params)
         s3.putObject(params, function (err, data) {
             if (err) {
-                console.log('ERR PROF',err)
+                console.log('ERR !!!PROF',err)
             } else {
                 console.log("Successfully uploaded data to myBucket/myKey",data);
             }
